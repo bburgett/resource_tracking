@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :organization, :active_scaffold => true
   map.resources :funding_flow, :active_scaffold => true
 
-  map.page_comments "page_comments/:id", :controller => 'comments', :action => 'index', :type => 'ModelHelp'
+  map.page_comments "page_comments/:id", :controller => 'page_comments', :action => 'index', :type => 'ModelHelp'
 
   # DRY up the static page controller
   map.root :controller => 'static_page' #a replacement for public/index.html

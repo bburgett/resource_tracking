@@ -28,10 +28,6 @@ class FundingFlowsController < ApplicationController
     end
     config.columns[:spending_to].label = "Amount Spent"
   end
-
-  def index
-
-  end
   
   def create_from_file
     super @@columns_for_file_upload

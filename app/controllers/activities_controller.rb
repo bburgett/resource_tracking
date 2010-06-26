@@ -30,10 +30,6 @@ class ActivitiesController < ApplicationController
     #config.columns[:indicators].options = {:draggable_lists => true}
   end
 
-  def index
-
-  end
-
   def create_from_file
     super @@columns_for_file_upload
   end

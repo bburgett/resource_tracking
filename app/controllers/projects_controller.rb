@@ -26,11 +26,12 @@ class ProjectsController < ApplicationController
     config.columns[:locations].label = "Districts Worked In"
   end
 
-  def index
-
-  end
 
   def create_from_file
+    #TODO add constraints option that works with key - value for ids
+    # or pass in an object to build the new record off of?
+    # so that file uploads with constraints in the AS view work
+    # as user would expect
     super @@columns_for_file_upload
   end
 
