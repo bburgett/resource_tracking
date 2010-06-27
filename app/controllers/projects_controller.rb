@@ -26,6 +26,7 @@ class ProjectsController < ApplicationController
     config.columns[:locations].label = "Districts Worked In"
   end
 
+  #note that defining an index action breaks active scaffold search
 
   def create_from_file
     #TODO add constraints option that works with key - value for ids

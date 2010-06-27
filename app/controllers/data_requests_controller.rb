@@ -4,12 +4,14 @@ class DataRequestsController < ApplicationController
   end
 
   def funding_sources
-    @constraints = { :to => Organization.last } #current_user.organization
+    @label = "Funding Sources"
+    @constraints = { :to => Organization.last.id } #current_user.organization
     render :template => 'funding_flows/index'
   end
 
   def providers
-    @constraints = { :from => Organization.last } #current_user.organization
+    @label = "Subcontractors / Providers"
+    @constraints = { :from => Organization.last.id } #current_user.organization
     render :template => 'funding_flows/index'
   end
 
