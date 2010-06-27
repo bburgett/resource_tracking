@@ -1,4 +1,7 @@
 module WorkflowHelper
+
+  #TODO write integration test that just walks through these
+  # following links and testing for the right active scaffold name heading
   @@map = { "start" => "projects", "projects" => "funding_sources", "funding_sources" => "providers",
             "providers" => "activities" , "activities" => "show"}
 
