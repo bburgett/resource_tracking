@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
       success_msg="Created #{saved.count} of #{errors.count+saved.count} from file successfully"
       logger.debug(success_msg)
       flash[:notice] = success_msg
+      #if session [:redirect_to_after_create_from_file]
       redirect_to :action => :index
     else
       #user chooses field mapping
