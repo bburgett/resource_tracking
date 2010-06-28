@@ -26,6 +26,7 @@ class ProjectsController < ApplicationController
     config.columns[:locations].label = "Districts Worked In"
   end
 
+  record_select :per_page => 20, :search_on => 'name', :order_by => "name ASC"
   #note that defining an index action breaks active scaffold search
 
   def create_from_file
