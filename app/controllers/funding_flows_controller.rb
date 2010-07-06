@@ -1,6 +1,6 @@
 class FundingFlowsController < ApplicationController
-  @@shown_columns = [:from, :to,  :project, :committment_to, :spending_to]
-  @@create_columns = [:from, :to,  :project, :committment_to, :disbursement_to, :spending_to]
+  @@shown_columns = [:from, :to,  :project]
+  @@create_columns = [:from, :to,  :project, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget_q1, :budget_q2, :budget_q3, :budget_q4]
   @@columns_for_file_upload = @@shown_columns.map {|c| c.to_s} # TODO extend feature, locations for instance won't work
 
   map_fields :create_from_file,
@@ -27,6 +27,14 @@ class FundingFlowsController < ApplicationController
       config.columns[c].label = c.to_s.split("_").first.capitalize + " from donor"
     end
     config.columns[:spending_to].label = "Amount Spent"
+    [:spend_q1, :spend_q2, :spend_q3, :spend_q4].each do |c|
+      config.columns[c].inplace_edit = true
+      config.columns[c].label = "Calender 2009-2010 "+c.to_s.humanize.sub("q","Q")
+    end
+    [:budget_q1, :budget_q2, :budget_q3, :budget_q4].each do |c|
+      config.columns[c].inplace_edit = true
+      config.columns[c].label = "Calender 2010-2011 "+c.to_s.humanize.sub("q","Q")
+    end
   end
 
   def funding_sources

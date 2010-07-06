@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  @@shown_columns = [:name, :description,  :expected_total]
-  @@create_columns = [:name, :description,  :expected_total, :locations]
+  @@shown_columns = [:name, :description]
+  @@create_columns = [:name, :description, :locations, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget_q1, :budget_q2, :budget_q3, :budget_q4]
   def self.create_columns
     @@create_columns
   end
@@ -23,8 +23,15 @@ class ProjectsController < ApplicationController
     config.columns[:name].inplace_edit = true
     config.columns[:description].inplace_edit = true
     config.columns[:description].form_ui = :textarea
-    config.columns[:expected_total].inplace_edit = true
-    config.columns[:expected_total].label = "Total Budgeted Amount"
+    
+    [:spend_q1, :spend_q2, :spend_q3, :spend_q4].each do |c|
+      config.columns[c].inplace_edit = true
+      config.columns[c].label = "Calender 2009-2010 "+c.to_s.humanize.sub("q","Q")
+    end
+    [:budget_q1, :budget_q2, :budget_q3, :budget_q4].each do |c|
+      config.columns[c].inplace_edit = true
+      config.columns[c].label = "Calender 2010-2011 "+c.to_s.humanize.sub("q","Q")
+    end
     config.columns[:locations].form_ui = :select
     config.columns[:locations].label = "Districts Worked In"
   end
