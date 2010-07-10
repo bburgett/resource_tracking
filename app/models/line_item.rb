@@ -9,7 +9,7 @@ class LineItem < ActiveRecord::Base
 
   def to_s
     @s="Cost Breakdown: "
-    if activity_cost_category.nil?
+    unless activity_cost_category.nil?
       @s+"<No Category>"
     else
       @s+activity_cost_category.to_s

@@ -1,0 +1,71 @@
+!!! Strict
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Hardcoded Title in App Layout
+    = javascript_include_tag :defaults, 'jquery-1.4.2.min', :cache => true
+    = record_select_includes
+    = active_scaffold_includes
+
+    = stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'compiled/print.css', :media => 'print'
+    /[if lt IE 8]
+      = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
+
+    = stylesheet_link_tag 'custom'
+
+    = yield(:head)
+
+  %body
+    #header
+      #banner.round
+        = image_tag("logo_s.png", :alt => "Rwanda Resource Tracking Database", :class => "round")
+      #top_spacer
+      #login.login.round
+        %font{:size => "4px"}
+        %ul
+          %li= link_to "logout", "#"
+          %li= link_to "About", "#"
+          %li= link_to "Contact", "#"
+
+    #main.clear.span-24.doc.last
+      = render :partial => 'layouts/top_menu'
+
+      #left_side_bar.clear.span-6.border.side_menu
+        :javascript
+          $('left_side_bar').hide();
+        = yield :left_side_bar
+
+      #content.span-18.last
+
+        %ul.maintab
+          %li= link_to 'Dashboard', static_page_path(:ngo_dashboard)
+          %li= link_to 'Data Requests', data_requests_path
+          %li= link_to 'Comments', comments_path
+          %li= link_to 'Govt Comments', comments_path
+
+        %ul.subtab
+          %li= link_to 'Projects', projects_path
+          %li= link_to 'Funding Sources', funding_flows_path
+          %li= link_to 'Providers', providers_path
+          %li= link_to 'Activities', activities_path
+          %li= link_to 'Other Costs', static_page_path(:ngo_dashboard)
+          %li= link_to 'Submit', static_page_path(:ngo_dashboard)
+
+        #breadcrumbs.breadcrumbs.span-18.last
+          = yield :breadcrumbs
+
+        - if flash[:notice]
+          #notice= flash[:notice]
+
+        .page_help
+          = yield :page_help
+
+        = yield
+
+        .comments
+          = yield :comments
+
+      = render :partial => 'layouts/right_side_bar'
+
+    #bottom
+      = render :partial => 'layouts/footer'
