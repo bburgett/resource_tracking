@@ -1,5 +1,6 @@
 - title "Log in"
 
+
 :javascript
   $('tabs').hide();
 
@@ -21,3 +22,5 @@
           \&nbsp;
         %td
           = form.submit "Submit"
+          =link_to "I can't access my account",new_password_reset_path
+

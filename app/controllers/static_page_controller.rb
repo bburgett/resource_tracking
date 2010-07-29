@@ -1,9 +1,9 @@
 class StaticPageController < ApplicationController
+
   skip_before_filter :load_help
 
   before_filter :require_user, :except => [:index, :news, :about]
 
-  
   def index
   end
   def news
@@ -15,5 +15,6 @@ class StaticPageController < ApplicationController
     #TODO add authorization for the various dashboards
     render :action => params[:page]
   end
+
 end
 

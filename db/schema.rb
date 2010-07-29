@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file, 
+# This file is auto-generated from the current state of the database. Instead of editing this file,
 # please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
@@ -10,6 +10,7 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20100728162821) do
+
 
   create_table "abilities", :force => true do |t|
     t.datetime "created_at"
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20100728162821) do
   add_index "data_elements", ["data_response_id"], :name => "index_data_elements_on_data_response_id"
 
   create_table "data_requests", :force => true do |t|
+
     t.integer  "organization_id_requester"
     t.string   "title"
     t.boolean  "complete",                  :default => false
@@ -134,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20100728162821) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "organization_id_responder"
+
   end
 
   add_index "data_responses", ["data_request_id"], :name => "index_data_responses_on_data_request_id"
@@ -207,6 +210,11 @@ ActiveRecord::Schema.define(:version => 20100728162821) do
     t.datetime "updated_at"
   end
 
+  create_table "notifiers", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.string   "type"
@@ -252,3 +260,4 @@ ActiveRecord::Schema.define(:version => 20100728162821) do
   end
 
 end
+

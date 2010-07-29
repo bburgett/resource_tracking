@@ -1,0 +1,66 @@
+
+
+<script>
+$('tabs').hide();
+</script>
+
+<script type="text/javascript">
+      function toggleDiv()
+      {
+        if (document.getElementById("myDivBox").style.display == "block")
+        {
+          document.getElementById("myDivBox").style.display = "none";
+        }
+        else
+        {
+          document.getElementById("myDivBox").style.display = "block";
+        }
+      }
+</script>
+
+<table >
+<tr valign="top"><td>
+<h2>Welcome to the Resource Tracking Database!</h2>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="480" height="190">
+  <param name="movie" value="slide.swf" />
+  <param name="quality" value="high" />
+  <param name="allowFullScreen" value="false" />
+  <param name="wmode" value="transparent">
+  <embed src="images/slide.swf"
+         quality="high"
+         type="application/x-shockwave-flash"
+         WMODE="transparent"
+         width="480"
+         height="190"
+         allowFullScreen="false"
+         pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object>
+  </td>
+<td width="15">&nbsp;</td>
+  <td  width="480" height="190" >
+
+
+<fieldset>
+			<legend><span><a href="#" onclick="toggleDiv()">Login</a></span></legend>
+  <h2>
+  <div id="myDivBox" style="display:none;">
+   <table ><tr><td>
+   Username</td><td>
+    <input type="text" size="14px"></td><tr><td>
+   Password</td><td>
+   <input type="text" size="14px"></td>
+   </tr>
+   <tr>
+   <td>
+  </td>
+   </tr>
+   </table>
+  </div>
+
+  </h2>
+</fieldset>
+
+ </td>
+ </tr>
+ </table>
+

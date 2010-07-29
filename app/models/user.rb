@@ -40,6 +40,12 @@ class User < ActiveRecord::Base
 
   ROLES = %w[admin reporter]
 
+
+  def deliver_password_reset_instructions!
+     reset_persistence_token!
+     Notifier.deliver_password_reset_instructions(self)
+  end
+
   def roles=(roles)
     roles = roles.collect {|r| r.to_s} # allows symbols to be passed in
     self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
@@ -80,5 +86,6 @@ class User < ActiveRecord::Base
     u.try(:delete)
     User.current_user = nil
   end
+
 end
 

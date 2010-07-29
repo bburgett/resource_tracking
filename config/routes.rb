@@ -44,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :active_scaffold => true
   map.resource :user_session
+  map.resources :password_resets
 
   # routes for CSV uploading for various models
   %w[activities funding_flows projects providers funding_sources model_helps comments other_costs organizations users].each do |model|
