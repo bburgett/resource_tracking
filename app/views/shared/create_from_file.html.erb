@@ -1,2 +1,53 @@
+<%= stylesheet_link_tag 'jquery-ui-1.7.2.custom', 'slider' %>
+
+<%= javascript_include_tag  'jquery-1.4.2.min', 'jquery-ui-1.7.2.custom.min' %>
+
+
+<div id="sliderContent" class="ui-corner-all">
+
+<div id="slider"></div>
+<div class="viewer ui-corner-all">
+<div class="content-conveyor ui-helper-clearfix">
+
 <%= render :partial => 'map_fields/map_fields' %>
+
+</div>
+</div>
+
+</div>
+
+
+
+<script type="text/javascript">
+      $(function() {
+        
+		//vars
+		var conveyor = $(".content-conveyor", $("#sliderContent")),
+		item = $(".field_options", $("#sliderContent"));
+
+		//set length of conveyor
+		conveyor.css("width", item.length * parseInt(item.css("width")));
+				
+        //config
+        var sliderOpts = {
+		  max: (item.length * parseInt(item.css("width"))) - parseInt($(".viewer", $("#sliderContent")).css("width")),
+          slide: function(e, ui) { 
+            conveyor.css("left", "-" + ui.value + "1" + "px");
+          }
+        };
+
+        //create slider
+        $("#slider").slider(sliderOpts);
+      });
+
+    
+
+
+</script>
+
 <p>Note that dates must be in YYYY/MM/DD format.</p>
+
+
+
+
+
