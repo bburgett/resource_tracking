@@ -170,9 +170,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  before_filter do |c_instance|
-    User.current_user = c_instance.send(:current_user)
-  end
+  #before_filter do |c_instance|
+  #  User.current_user = c_instance.send(:current_user)
+    # this also sets a current_user_session_variable on the controller
+  #end
 
   private
 

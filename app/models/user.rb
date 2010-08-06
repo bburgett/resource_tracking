@@ -19,7 +19,7 @@
 class User < ActiveRecord::Base
   acts_as_authentic
 
-  cattr_accessor :current_user
+  #cattr_accessor :current_user
   attr_readonly :roles_mask #only assign role on create
   attr_readonly :organization_id #only assign organization on create
 
@@ -63,17 +63,25 @@ class User < ActiveRecord::Base
   end
 
   def self.stub_current_user_and_data_response
+    # stub the authorize instance method 
     o=Organization.new(:name=>"org_for_internal_stub382342")
     o.save(false)
     u = User.new(:username=> "admin_internal_stub2309420", :roles => ["admin"],
       :organization => o)
     u.save(false)
+    # unstub the authorize method
+
+    # stub current user after saving the original method
+    # alternative is to set a flag and use that in the current_user method
+    # to return a @@current_user
     User.current_user = u
     d=DataResponse.new :responding_organization => o
     d.save(false)
     u.current_data_response = d
     u.save(false)
     User.current_user = u
+    # todo - hide the hold method and replace it w shortcut to these vars
+    # then show on the unstub
   end
   def self.unstub_current_user_and_data_response
     u=User.find_by_username("admin_internal_stub2309420")
@@ -89,6 +97,16 @@ class User < ActiveRecord::Base
 #    unless User.current_user.id == self.id || User.current_user.try(:role?,:admin)
 #      raise CanCan::AccessDenied
 #    end
+  end
+
+  def self.current_user
+    @@current_user = current_user_session && current_user_session.record
+  end
+
+  protected
+
+  def self.current_user_session
+    @@current_user_session = UserSession.find
   end
 end
 
