@@ -26,9 +26,8 @@ class Project < ActiveRecord::Base
 
   acts_as_stripper
 
-  default_scope :conditions => ["projects.organization_id_owner = ? or 1=?",
-    ValueAtRuntime.new(Proc.new{current_user.organization.id}),
-    ValueAtRuntime.new(Proc.new{current_user.role?(:admin) ? 1 : 0})]
+  named_scope :available_to,
+              lambda { |user| {:conditions => "organization_id_owner = #{user.id} or 1=#{user.role?(:admin) ? 1:0}" } }
 
   belongs_to :owner, :class_name => "Organization", :foreign_key => "organization_id_owner"
 

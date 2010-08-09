@@ -65,4 +65,8 @@ class ProjectsController < ApplicationController
     super @@columns_for_file_upload
   end
 
+  def beginning_of_chain
+    super.available_to current_user
+  end
+
 end
