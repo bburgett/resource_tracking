@@ -27,8 +27,8 @@ class ProjectTest < ActiveSupport::TestCase
     to_me = nil
     from_me_to_me = nil
     p.funding_flows.each do |f|
-      if f.to == User.current_user.organization
-        if f.from == User.current_user.organization && f.self_provider_flag == 1
+      if f.to == current_user.organization
+        if f.from == current_user.organization && f.self_provider_flag == 1
           from_me_to_me = f
         else
           to_me = f

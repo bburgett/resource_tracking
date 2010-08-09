@@ -26,8 +26,8 @@ class DataResponse < ActiveRecord::Base
   belongs_to :data_request
 
   default_scope :conditions => ["organization_id_responder = ? or 1=?",
-    ValueAtRuntime.new(Proc.new{User.current_user.organization.id}),
-    ValueAtRuntime.new(Proc.new{User.current_user.role?(:admin) ? 1 : 0})]
+    ValueAtRuntime.new(Proc.new{current_user.organization.id}),
+    ValueAtRuntime.new(Proc.new{current_user.role?(:admin) ? 1 : 0})]
 
   def self.remove_security
     with_exclusive_scope {find(:all)}

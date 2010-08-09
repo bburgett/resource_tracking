@@ -18,12 +18,12 @@ module ActAsDataElement
     include ApplicationHelper
     def save_to_response 
       #<TODO> find session with the response_id
-      dr = User.current_user.current_data_response
+      dr = current_user.current_data_response
       dr.add_or_update_element self
       dr.save
     end
     def delete_to_response
-      dr = User.current_user.current_data_response
+      dr = current_user.current_data_response
       dr.delete_element self
       dr.save
     end

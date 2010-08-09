@@ -90,17 +90,17 @@ module CreateMirrorsCode
       
       end #case
     
-     User.current_user.roles.delete(:admin) unless user_was_admin
+     current_user.roles.delete(:admin) unless user_was_admin
      @@in_process_of_saving.delete self
     end
   end
 
   def current_org
-    User.current_user.organization
+    current_user.organization
   end
 
   def current_user
-    User.current_user
+    current_user
   end
  
   def no_mirror_version_of record, options = {}

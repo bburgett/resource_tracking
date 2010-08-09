@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  #around_filter :access_session_variable 
+  #around_filter :access_session_variable
   #allows access to session variable from model
 
   # Scrub sensitive parameters from your log
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
       #flash[:error] = "Access denied!"
       #redirect_to root_url
   end
-  
+
   # right now this only thrown when user tries to update an organization
   rescue_from ActiveScaffold::ActionNotAllowed do |exception|
     render :text => 'Please click "edit" link at the end of the row
@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
     config.actions.exclude :show
     config.list.empty_field_text = "------"
     config.list.pagination = false
+    config.security.current_user_method = :current_user
     #config.create.persistent = true #add back when make form appear below list
   end
 
@@ -179,10 +180,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  before_filter do |c_instance|
-    User.current_user = c_instance.send(:current_user)
-  end
-
   private
 
   #before_filter { |c| Authorization.current_user = c.current_user }
@@ -241,14 +238,14 @@ class ApplicationController < ActionController::Base
     as_column.options[:size] = 15
 
     # sadly this appears to not work
-    as_column.options[:i18n_options] = {:precision => 0} 
+    as_column.options[:i18n_options] = {:precision => 0}
   end
 
   def check_user_has_data_response
-    unless User.current_user.current_data_response
+    unless current_user.current_data_response
       flash[:warning] = "Please first click on one of the links underneath \"Data Requests to Fulflill\" to continue. We will remember which data request you were responding to the next time you login, so you won't see this message again."
       #TODO email the file and have someone get back to helping them
-      redirect_to user_dashboard_path(User.current_user)
+      redirect_to user_dashboard_path(current_user)
     end
   end
 

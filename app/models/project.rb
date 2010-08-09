@@ -26,10 +26,10 @@ class Project < ActiveRecord::Base
 
   acts_as_stripper
 
-  before_save :authorize_and_set_owner
   default_scope :conditions => ["projects.organization_id_owner = ? or 1=?",
-    ValueAtRuntime.new(Proc.new{User.current_user.organization.id}),
-    ValueAtRuntime.new(Proc.new{User.current_user.role?(:admin) ? 1 : 0})]
+    ValueAtRuntime.new(Proc.new{current_user.organization.id}),
+    ValueAtRuntime.new(Proc.new{current_user.role?(:admin) ? 1 : 0})]
+
   belongs_to :owner, :class_name => "Organization", :foreign_key => "organization_id_owner"
 
   has_and_belongs_to_many :activities
@@ -87,7 +87,7 @@ class Project < ActiveRecord::Base
   end
 
   def create_helpful_records_for_workflow
-    my_org = User.current_user.organization
+    my_org = current_user.organization
     #TODO pass in the amount attributes and use them on records below
     #attribs = r.attributes.reject {|a| ! FundingFlow.new.attributes.include? a }
     shared_attributes = [:budget, :spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4]
@@ -103,13 +103,4 @@ class Project < ActiveRecord::Base
 
   protected
 
-  def authorize_and_set_owner
-    current_user = User.current_user
-    # TODO authorize and throw exception if no create/update for you! no soup for you!
-
-    # don't remove the self reference below, otherwise it breaks
-    unless current_user.role?(:admin) && self.owner != nil
-      self.owner = User.current_user.organization
-    end
-  end
 end
