@@ -18,6 +18,7 @@ describe Project do
     describe "assigning funding flows" do
       it "should have no assigned funding flows on creation" do
         project = Factory(:project)
+        debugger
         project.funding_flows.should be_empty
       end
     
