@@ -45,7 +45,6 @@ Scenario: enter budget for an activity
   And I should be on the budget classification page for "TB Drugs procurement"
   And the "Providing Technical Assistance, Improving Planning, Building Capacity, Strengthening Systems" field should contain "1,234,567.00"
 
-
 # no coverage since jquery tabs added
 @wip
 Scenario: enter expenditure for an activity
@@ -58,7 +57,6 @@ Scenario: enter expenditure for an activity
   Then I should see "Activity expenditure was successfully updated."
   And the "Providing Technical Assistance, Improving Planning, Building Capacity, Strengthening Systems" field should contain "1,234,567.00"
 
-@run
 Scenario: Bug: enter budget for an activity, save, shown with xx,xxx.yy number formatting, save again, ensure number is not nerfed. 
   Given I am on the budget classification page for "TB Drugs procurement"
   When I fill in "Providing Technical Assistance, Improving Planning, Building Capacity, Strengthening Systems" with "1234567.00"
