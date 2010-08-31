@@ -49,9 +49,6 @@ class Activity < ActiveRecord::Base
   has_and_belongs_to_many :organizations # organizations targeted by this activity / aided
   has_and_belongs_to_many :beneficiaries # codes representing who benefits from this activity
 
-  # TODO double check these go away from glenn's changes
-#  has_many :code_assignments, :foreign_key => :activity_id, :dependent => :destroy
-#  has_many :codes, :through => :code_assignments
   has_many :sub_activities, :class_name => "SubActivity", :foreign_key => :activity_id
   has_many :budget_codings, :foreign_key => :activity_id, :dependent => :destroy
   has_many :budget_codes, :through => :budget_codings, :source => :code
@@ -64,6 +61,7 @@ class Activity < ActiveRecord::Base
   attr_accessor :expenditure_cost_categories_updates
   attr_accessible :budget_cost_categories_updates, :budget_codes_updates,
     :expenditure_codes_updates, :expenditure_cost_categories_updates
+
   after_save :update_budget_codings
   after_save :update_expenditure_codings
 
@@ -94,12 +92,24 @@ class Activity < ActiveRecord::Base
   # trick to help clean up controller code
   # http://ramblings.gibberishcode.net/archives/rails-has-and-belongs-to-many-habtm-demystified/17
   def update_budget_codings
-    update_coding_attribute_proxy budget_codes_updates, :budget_codes
-    update_coding_attribute_proxy budget_cost_categories_updates, :budget_cost_categories
+    if budget_codes_updates
+      budget_codings.delete_all
+      update_coding_attribute_proxy budget_codes_updates, :budget_codes
+    end
+  end
+
+  def update_budget_cost_categories
+    if budget_cost_categories_updates
+      budget_cost_categories.delete_all
+      update_coding_attribute_proxy budget_cost_categories_updates, :budget_cost_categories
+    end
   end
 
   def update_expenditure_codings
     update_coding_attribute_proxy expenditure_codes_updates, :expenditure_codes
+  end
+
+  def update_expenditure_cost_categories
     update_coding_attribute_proxy expenditure_cost_categories_updates, :expenditure_cost_categories
   end
 
@@ -118,22 +128,16 @@ class Activity < ActiveRecord::Base
   protected
 
   def update_coding_attribute_proxy code_assignments, coding_type
-    if code_assignments
-      code_assignments.delete_if { |key,val| val["amount"].nil? || val["percentage"].nil? }
-      code_assignments.delete_if { |key,val| val["amount"].empty? && val["percentage"].empty? }
-      selected_codes = code_assignments.nil? ? [] : code_assignments.keys.collect{ |id| Code.find_by_id(id) }
+    code_assignments.delete_if { |key,val| val["amount"].nil? || val["percentage"].nil? }
+    code_assignments.delete_if { |key,val| val["amount"].empty? && val["percentage"].empty? }
+    selected_codes = code_assignments.nil? ? [] : code_assignments.keys.collect{ |id| Code.find_by_id(id) }
 
-      # TODO change to if its not in selected and has type
-      # so we can write useful destry and create callbacks
-      clear_old_codings coding_type
-
-      # TODO update all the codings, create the ones that are actually new
-      create_klass = create_class_for_coding_type coding_type
-      selected_codes.each { |code|  create_klass.create!( :activity => self,
-                                      :code => code,
-                                      :amount => currency_to_number(code_assignments[code.id.to_s]["amount"]),
-                                      :percentage => code_assignments[code.id.to_s]["percentage"] ) unless code.nil? }
-    end
+    # TODO update all the codings, create the ones that are actually new
+    create_klass = create_class_for_coding_type coding_type
+    selected_codes.each { |code|  create_klass.create!( :activity => self,
+                                    :code => code,
+                                    :amount => currency_to_number(code_assignments[code.id.to_s]["amount"]),
+                                    :percentage => code_assignments[code.id.to_s]["percentage"] ) unless code.nil? }
   end
 
   # TODO drive these with hashes instead of if's
