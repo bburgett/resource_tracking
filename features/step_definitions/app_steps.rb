@@ -110,15 +110,10 @@ Given /^the following funding flows$/ do |table|
   end
 end
 
-Then /^debug$/ do
-  debugger # express the regexp above with the code you wish you had
-end
-
 Then /^I should see the visitors header$/ do
   steps %Q{
-    Then I should see "Improving lives through better health policy" within "div#header"
-    Then I should see "Have an account?" within "div#header"
-    And I should see "Sign in" within "div#header"
+    Then I should see "Have an account?" within "div#header_app"
+    And I should see "Sign in" within "div#header_app"
   }
 end
 
