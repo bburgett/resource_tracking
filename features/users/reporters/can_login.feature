@@ -26,13 +26,11 @@ Scenario: Login with invalid data - see flash message not AR errors
   Then I should see "Wrong Username/email and password combination"
   And I should not see "There were problems with the following fields:"
 
-@run
 Scenario: Login as a reporter with a username
   Given a reporter "Frank" with email "frank@f.com" and password "password"
   When I go to the login page
   When I fill in "Username or Email" with "Frank"
   And I fill in "Password" with "password"
-  Then debug
   And I press "Sign in"
   And I should see the reporters admin nav
   And I should see the main nav tabs
