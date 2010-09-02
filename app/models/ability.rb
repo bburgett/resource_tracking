@@ -9,13 +9,7 @@ class Ability
       #can :approve, Activity do |activity|
         #activity.try(:organization) == user.organization
       #end
-      can :manage, Project
-      can :manage, FundingFlow
-      can :manage, Organization
-      can :manage, Activity
-      can :manage, OtherCost
-      can :manage, Comment
-      can :manage, CodeAssignment
+      can :manage, [ Project, FundingFlow, Organization, Activity, OtherCost, Comment, CodeAssignment ]
       can :create, Organization
       can :update, User, :id => user.id
       can :read, Code
@@ -23,13 +17,9 @@ class Ability
       can :read, FieldHelp
       can :create, HelpRequest
     elsif user.role?(:reporter)
-      can :manage, Project
-      can :manage, FundingFlow
-      can :manage, Organization
-      can :manage, Activity
-      can :manage, OtherCost
-      can :manage, Comment
-      can :manage, CodeAssignment
+      can :manage, [ Project, FundingFlow, Organization, Activity, OtherCost, Comment, CodeAssignment ]
+      # :manage seems to let all non-RESTful actions thru, so explicity remove this perm for reporters
+      cannot :approve, Activity
       can :create, Organization
       can :update, User, :id => user.id
       can :read, Code
