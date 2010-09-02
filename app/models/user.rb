@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   acts_as_authentic
 
   attr_accessible :full_name, :email, :username, :password,
-                  :password_confirmation, :organization_id, :organization
+                  :password_confirmation, :organization_id, :organization, :roles
 
   before_save :authorize
 

@@ -21,27 +21,30 @@ FasterCSV.foreach("db/fixes/activity_manager_users_sep_10.csv", :headers => true
     auto_created_passwords << "#{org_name}, #{user_email}, #{user_name}, #{user_password}"
   end
   org           = Organization.find_by_name(org_name)
+
   puts "  WARN: Cannot find organization \"#{org_name}\" in the database (row: \# #{i})" unless org
 
   existing_user = User.find_by_email(user_email)
   puts "  WARN: User \"#{user_email}\" already exists (row: \# #{i})" if existing_user
   existing_user.delete if existing_user# otherwise will ahve users referencing non existent data responses potentially
 
-  User.stub_current_user_and_data_response
   #create dummy users
   print "  Creating #{user_email}, #{username}, #{user_password}\n"
 
-  saved = User.create(:username => username,
+  user = User.create(:username => username,
                :email => user_email,
                :full_name => full_name,
                :password => user_password,
                :password_confirmation => user_password,
                :organization => org,
                :roles => ['activity_manager'])
-  print "  WARN: reporter \"#{user_email}\" not created!!!" unless saved
+
+  print "  WARN: reporter \"#{user_email}\" not created!!!" unless user
   print "."
 
-  User.unstub_current_user_and_data_response
+  dr                          = org.data_responses.first
+  user.current_data_response = dr
+  user.save!
 
 end
 

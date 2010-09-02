@@ -5,6 +5,7 @@ class Ability
     if user.role? :admin
       can :manage, :all
     elsif user.role?(:activity_manager)
+      can :manage, Activity
       can :approve, Activity
       #can :approve, Activity do |activity|
         #activity.try(:organization) == user.organization
