@@ -1,13 +1,3 @@
-:javascript
-  jQuery('#activity_description #approve_activity').bind('click', function() {
-      jQuery.ajax({
-          type: 'POST',
-          url: "activities/#{@activity.id}/approve",
-          data: ({ value : this.getAttribute('approve_activity') })
-      });
-  );
-
-
 %table#activity_description
   %tr
     %td.title Name:
@@ -21,7 +11,3 @@
   %tr
     %td.title Description:
     %td= @activity.description
-  %tr
-    %td.title
-      = label_tag 'approve_activity', "Approved?"
-      = check_box_tag 'approve_activity', true, checked = false
