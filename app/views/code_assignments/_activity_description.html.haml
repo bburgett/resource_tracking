@@ -1,3 +1,13 @@
+:javascript
+  jQuery('#activity_description #approve_activity').bind('click', function() {
+      jQuery.ajax({
+          type: 'POST',
+          url: "activities/#{@activity.id}/approve",
+          data: ({ value : this.getAttribute('approve_activity') })
+      });
+  );
+
+
 %table#activity_description
   %tr
     %td.title Name:
@@ -13,9 +23,5 @@
     %td= @activity.description
   %tr
     %td.title
-      = label_tag @activity.id, "Approved?"
-      = check_box_tag @activity.id, true, checked = false
-      = observe_field @activity.id, :url => { :controller => 'activities', :action => :approve, :id => @activity.id },
-                            :frequency => 0,
-                            :update => :completed,
-                            :with => true
+      = label_tag 'approve_activity', "Approved?"
+      = check_box_tag 'approve_activity', true, checked = false
