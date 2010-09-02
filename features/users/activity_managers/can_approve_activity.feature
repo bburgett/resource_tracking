@@ -33,8 +33,9 @@ Scenario: See a breakdown for an activity
 Scenario: Approve an Activity
   When I go to the activities page
   And I follow "Classify"
-  Then I should see "Approved?"
-
+  When I check "Approved?"
+  Then I should see "Activity has been approved"
+  
 Scenario: See approved activities
   Log in as Activity Manager 
   Go to Activities
