@@ -64,10 +64,10 @@ describe "Requesting Activity endpoints as visitor" do
       it_should_behave_like "a protected endpoint"
     end
     
-    context "Requesting /activities/1/approve using GET" do
+    context "Requesting /activities/1/approve using POST" do
       before do 
         @activity = Factory.create(:activity)
-        get :show, :id => @activity.id
+        post :approve, :id => @activity.id
       end
       it_should_behave_like "a protected endpoint"
     end
@@ -235,10 +235,10 @@ describe "Requesting Activity endpoints as a reporter" do
     end
   end
   
-  context "Requesting /activities/1/approve using GET" do
+  context "Requesting /activities/1/approve using POST" do
     before do 
       @activity = Factory.create(:activity)
-      get :show, :id => @activity.id
+      post :approve, :id => @activity.id
     end
     it_should_behave_like "a protected endpoint"
   end

@@ -220,5 +220,5 @@ Given /^a refactor_me_please current_data_response for user "([^"]*)"$/ do |name
 end
 
 Then /^wait a few moments$/ do
-  sleep 4
+  sleep 20
 end

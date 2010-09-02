@@ -9,7 +9,7 @@ Background:
     | WHO              |
     | UNAIDS           |
   Given the following activity managers 
-     | name         | organization |
+     | name            | organization |
      | who_manager     | WHO          |
   Given a data request with title "Req1" from "UNAIDS"
   Given a data response to "Req1" by "WHO"
@@ -18,7 +18,6 @@ Background:
   Given a refactor_me_please current_data_response for user "who_manager"
   Given I am signed in as "who_manager"
 
-@run
 Scenario: See a breakdown for an activity
   When I go to the activities page
   And I follow "Classify"
@@ -29,17 +28,21 @@ Scenario: See a breakdown for an activity
   And I should see "Expenditure Cost Categorization"
   And I should see "Providing Technical Assistance"
 
-@run
+
+# note you cant drive this via the normal 'Classify' popup link in Capybara - it wont follow the new browser window 
+
+@slow
+@javascript
 Scenario: Approve an Activity
-  When I go to the activities page
-  And I follow "Classify"
-  When I check "Approved?"
-  Then I should see "Activity has been approved"
-  
+  When I go to the activity classification page for "TB Drugs procurement"
+  Then I should see "Activity Classification"
+  When I check "approve_activity"
+  And I go to the activity classification page for "TB Drugs procurement"
+  Then the "approve_activity" checkbox should be checked
+
 Scenario: See approved activities
-  Log in as Activity Manager 
-  Go to Activities
-  see Approved/Not Approved on Activity listing (extra column)
+  When I go to the activities page
+  Then I should see "Approved?"
 
 Scenario: See unapproved activities highlighted 
   Log in as Activity Manager 
