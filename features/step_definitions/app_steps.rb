@@ -51,6 +51,16 @@ Given /^the following reporters$/ do |table|
   end
 end
 
+Given /^the following activity managers$/ do |table|
+  table.hashes.each do |hash|
+    org  = Organization.find_by_name(hash.delete("organization"))
+    username  = hash.delete("name")
+    Factory.create(:activity_manager, { :username => username,
+                                        :organization_id => org.id
+                                      }.merge(hash) )
+  end
+end
+
 Given /^I am signed in as "([^"]*)"$/ do |name|
   steps %Q{
     When I go to the login page

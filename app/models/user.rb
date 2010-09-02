@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
     with_exclusive_scope {find(:all)}
   end
 
-  ROLES = %w[admin reporter]
+  ROLES = %w[admin reporter activity_manager]
 
   def roles=(roles)
     roles = roles.collect {|r| r.to_s} # allows symbols to be passed in
