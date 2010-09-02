@@ -2,10 +2,13 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # Guest user
     if user.role? :admin
       can :manage, :all
-    elsif user.role?(:reporter)
+    elsif user.role?(:activity_manager)
+      can :approve, Activity
+      #can :approve, Activity do |activity|
+        #activity.try(:organization) == user.organization
+      #end
       can :manage, Project
       can :manage, FundingFlow
       can :manage, Organization
@@ -19,8 +22,7 @@ class Ability
       can :read, ModelHelp
       can :read, FieldHelp
       can :create, HelpRequest
-    elsif user.role?(:activity_manager)
-      #can :approve, Activity
+    elsif user.role?(:reporter)
       can :manage, Project
       can :manage, FundingFlow
       can :manage, Organization

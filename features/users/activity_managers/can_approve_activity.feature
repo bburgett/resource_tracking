@@ -31,11 +31,13 @@ Scenario: See a breakdown for an activity
 
 # note you cant drive this via the normal 'Classify' popup link in Capybara - it wont follow the new browser window 
 
+@run
 @slow
 @javascript
 Scenario: Approve an Activity
   When I go to the activity classification page for "TB Drugs procurement"
   Then I should see "Activity Classification"
+  And I should see "Approved?"
   When I check "approve_activity"
   And I go to the activity classification page for "TB Drugs procurement"
   Then the "approve_activity" checkbox should be checked

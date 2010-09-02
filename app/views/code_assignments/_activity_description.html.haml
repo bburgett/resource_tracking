@@ -21,7 +21,7 @@
   %tr
     %td.title Description:
     %td= @activity.description
-  - can? :approve, @activity do
+  - if can? :approve, @activity
     %tr
       %td.title
         = label_tag "Approved?"

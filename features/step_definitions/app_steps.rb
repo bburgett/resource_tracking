@@ -41,6 +41,10 @@ Given /^a reporter "([^"]*)" with email "([^"]*)" and password "([^"]*)"$/ do | 
   @user = Factory.create(:reporter, :username => name, :email => email, :password => password, :password_confirmation => password)
 end
 
+Given /^an activity manager "([^"]*)" with email "([^"]*)" and password "([^"]*)"$/ do | name, email, password|
+  @user = Factory.create(:activity_manager, :username => name, :email => email, :password => password, :password_confirmation => password)
+end
+
 Given /^the following reporters$/ do |table|
   table.hashes.each do |hash|
     org  = Organization.find_by_name(hash.delete("organization"))
@@ -77,6 +81,13 @@ Given /^I am signed in as a reporter$/ do
   }
 end
 
+Given /^I am signed in as an activity manager$/ do
+  steps %Q{
+    Given an activity manager "Frank" in organization "Test Org"
+    Given I am signed in as "Frank"
+  }
+end
+
 
 Given /^an organization with name "([^"]*)"$/ do |name|
   @organization = Factory.create(:organization, :name => name)
@@ -96,6 +107,13 @@ end
 Given /^a reporter "([^"]*)" in organization "([^"]*)"$/ do |name, org_name|
   @organization = Factory.create(:organization, :name => org_name)
   @user = Factory.create(:reporter, :username => name, :email => 'frank@f.com', 
+                          :password => 'password', :password_confirmation => 'password',
+                          :organization => @organization)
+end
+
+Given /^an activity manager "([^"]*)" in organization "([^"]*)"$/ do |name, org_name|
+  @organization = Factory.create(:organization, :name => org_name)
+  @user = Factory.create(:activity_manager, :username => name, :email => 'frank@f.com', 
                           :password => 'password', :password_confirmation => 'password',
                           :organization => @organization)
 end
