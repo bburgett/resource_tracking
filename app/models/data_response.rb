@@ -51,7 +51,6 @@ class DataResponse < ActiveRecord::Base
 
   named_scope :unfulfilled, :conditions => ["complete = ?", false]
 
-
   private
 
   def validate_start_date_and_end_date
