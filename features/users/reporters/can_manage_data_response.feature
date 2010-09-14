@@ -16,7 +16,7 @@ Scenario: Creates an implementer funding flow
   Given I am signed in as "undp_user"
   When I follow "My Data"
   And I follow "Configure"
-  Then I should be on the data response page
+  Then I should be on the data response page for "Req1"
   And I should see "Currency"
 
 Scenario: Bug: user is logged out if no 'current' data request was set.
