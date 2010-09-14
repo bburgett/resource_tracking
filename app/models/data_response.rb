@@ -22,6 +22,11 @@
 require 'lib/ActAsDataElement'
 
 class DataResponse < ActiveRecord::Base
+
+  # Validations
+  validates_presence_of :fiscal_year_start_date
+  validates_presence_of :fiscal_year_end_date
+
   named_scope :available_to, lambda { |current_user|
     if current_user.role?(:admin)
       {}
