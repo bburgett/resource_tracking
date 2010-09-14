@@ -2,7 +2,6 @@ Feature: In order to reduce costs
   As a reporter
   I want to be able to manage my data response settings
 
-@run
 Scenario: Browse to data response edit page
   Given a basic org + reporter profile, with data response, signed in
   When I follow "My Data"
@@ -10,7 +9,6 @@ Scenario: Browse to data response edit page
   Then I should be on the data response page for "Req1"
   And I should see "Currency"
 
-@run
 Scenario: Edit data response
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
@@ -26,8 +24,28 @@ Scenario: Edit data response, invalid dates
   And I fill in "data_response_fiscal_year_start_date" with ""
   And I fill in "data_response_fiscal_year_end_date" with ""
   And I press "Save"
+  Then show me the page
   Then I should see "Oops, we couldn't save your changes."
 
+
+Scenario: BUG: 5165708 - AS Comments breaking when validation errors on DResponse form
+  Given a basic org + reporter profile, with data response, signed in
+  When I go to the data response page for "Req1"
+  And I fill in "data_response_fiscal_year_start_date" with ""
+  And I fill in "data_response_fiscal_year_end_date" with ""
+  And I press "Save"
+  Then I should not see "Something went wrong, if this happens repeatedly, contact an administrator."
+
+@run
+@javascript
+Scenario: BUG: 5165708 - AS Comments breaking when validation errors on DResponse form
+  Given a basic org + reporter profile, with data response, signed in
+  When I go to the data response page for "Req1"
+  And I fill in "data_response_fiscal_year_start_date" with ""
+  And I fill in "data_response_fiscal_year_end_date" with ""
+  And I press "Save"
+  Then I should not see "Something went wrong, if this happens repeatedly, contact an administrator."
+  And I should not see "ActionController::InvalidAuthenticityToken"
 
 Scenario: Bug: user is logged out if no 'current' data request was set.
   Given the following organizations 
