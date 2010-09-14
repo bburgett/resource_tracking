@@ -46,6 +46,9 @@ module NavigationHelpers
     when /the user guide page/
       static_page_path(:user_guide)
 
+    when /the data response page/
+      data_response_start_path(@data_response)
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
