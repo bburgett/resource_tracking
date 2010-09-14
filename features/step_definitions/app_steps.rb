@@ -261,3 +261,18 @@ end
 When /^I wait until "([^"]*)" is visible$/ do |selector|
   page.has_css?("#{selector}", :visible => true)
 end
+
+Given /^a basic org \+ reporter profile, with data response, signed in$/ do
+  steps %Q { 
+    Given the following organizations 
+      | name   |
+      | UNDP   |
+    Given the following reporters 
+       | name         | organization |
+       | undp_user    | UNDP         |
+    Given a data request with title "Req1" from "UNAIDS"
+    Given a data response to "Req1" by "UNDP"
+    Given a refactor_me_please current_data_response for user "undp_user"
+    Given I am signed in as "undp_user"
+  }
+end
