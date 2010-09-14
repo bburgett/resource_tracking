@@ -26,6 +26,7 @@ class DataResponse < ActiveRecord::Base
   # Validations
   validates_presence_of :fiscal_year_start_date
   validates_presence_of :fiscal_year_end_date
+  validate :validate_start_date_and_end_date, :unless => Proc.new { |model| !model.fiscal_year_start_date.blank? && !model.fiscal_year_end_date.blank? }
 
   named_scope :available_to, lambda { |current_user|
     if current_user.role?(:admin)
@@ -94,4 +95,9 @@ class DataResponse < ActiveRecord::Base
 #  def is_complete
 #     complete = true if data_validated
 #  end
+
+  private
+  def validate_start_date_and_end_date
+    errors.add(:base, "Start date must come before end date.") unless fiscal_year_start_date < fiscal_year_end_date
+  end
 end
