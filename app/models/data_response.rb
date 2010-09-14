@@ -26,7 +26,7 @@ class DataResponse < ActiveRecord::Base
   # Validations
   validates_presence_of :fiscal_year_start_date
   validates_presence_of :fiscal_year_end_date
-  validate :validate_start_date_and_end_date, :unless => Proc.new { |model| !model.fiscal_year_start_date.blank? && !model.fiscal_year_end_date.blank? }
+  validate :validate_start_date_and_end_date, :unless => Proc.new { |model| model.fiscal_year_start_date.blank? && model.fiscal_year_end_date.blank? }
 
   named_scope :available_to, lambda { |current_user|
     if current_user.role?(:admin)
@@ -51,53 +51,11 @@ class DataResponse < ActiveRecord::Base
 
   named_scope :unfulfilled, :conditions => ["complete = ?", false]
 
-# TODO add these later when we are beginning to need them
-#  before_save :is_complete
- #after_save :all_responses_completed # TODO implement /fix, inf loops right now
-
-#  def add_or_update_element element_object
-    # assumes raw object that has not been attached to an element
-    # if it has been previously, then this does nothing
-    # TODO raise exception if that's the case, i think?
-#    if element_object.data_element.nil?
-#       data_elements.push(DataElement.create(:data_elementable => element_object))
-#       save
-#    end
-#  end
-
-#  def delete_element element_object
-#    unless element_object.data_element.nil?
-#      data_elements.delete(element_object.data_element)
-#    end
-#  end
-
-  #TODO all of the code below is untested, do when
-  # we get to validations
-#  protected
-#  def all_responses_completed
-#    #check how many noncompleted response has not been fulfill it
-#    @noncompleted_responses_count = DataResponse.count(
-#      :conditions=>["complete = ? AND data_request_id = ?",
-#        false, self.data_request_id])
-#
-    #check for first time datarequest creation
-#    if (@noncompleted_responses_count == 0) and (self.data_request.nil? == false)
-#      data_request.pending_review = true
-#      data_request.save
-#    end
-#  end
-
-#  def data_validated
-    #TODO add more validation, right now only checks for 1 scenario
-#    complete != true && false
-#  end
-
-#  def is_complete
-#     complete = true if data_validated
-#  end
 
   private
+
   def validate_start_date_and_end_date
-    errors.add(:base, "Start date must come before end date.") unless fiscal_year_start_date < fiscal_year_end_date
+    errors.add(:base, "Start date must come before end date.") unless self.fiscal_year_start_date < self.fiscal_year_end_date
   end
+
 end
