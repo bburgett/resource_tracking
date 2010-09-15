@@ -28,6 +28,7 @@ class Project < ActiveRecord::Base
   acts_as_commentable
 
   include ActAsDataElement
+  include ActsAsDateChecker
   configure_act_as_data_element
 
   acts_as_stripper
@@ -38,10 +39,14 @@ class Project < ActiveRecord::Base
   has_many :funding_sources, :through => :funding_flows, :class_name => "Organization", :source => :from
   has_many :providers, :through => :funding_flows, :class_name => "Organization", :source => :to
 
+  # Validations
   validates_presence_of :name
   validates_numericality_of :spend, :if => Proc.new {|model| !model.spend.blank?}
   validates_numericality_of :budget, :if => Proc.new {|model| !model.budget.blank?}
   validates_numericality_of :entire_budget, :if => Proc.new {|model| !model.entire_budget.blank?}
+  validates_date :start_date
+  validates_date :end_date
+  validate :validate_start_date_and_end_date, :if => Proc.new { |model| model.start_date.present? && model.end_date.present? }
 
   attr_accessible :name, :description, :spend, :budget, :entire_budget,
                   :start_date, :end_date, :currency
@@ -103,4 +108,13 @@ class Project < ActiveRecord::Base
     f1.save;f2.save;
     #activities << OtherCost.new #TODO fix and let this work
   end
+
+  private
+
+  def validate_start_date_and_end_date
+    start_date = string_validator.string_to_date(self.start_date)
+    end_date   = string_validator.string_to_date(self.end_date)
+    errors.add(:base, "Start date must come before End date.") unless start_date < end_date
+  end
+
 end

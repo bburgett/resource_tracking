@@ -23,6 +23,8 @@ require 'lib/ActAsDataElement'
 
 class DataResponse < ActiveRecord::Base
 
+  include ActsAsDateChecker
+
   has_many    :users_currently_completing,
               :class_name => "User",
               :foreign_key => :data_response_id_current
@@ -58,10 +60,6 @@ class DataResponse < ActiveRecord::Base
     start_date = string_validator.string_to_date(self.fiscal_year_start_date)
     end_date   = string_validator.string_to_date(self.fiscal_year_end_date)
     errors.add(:base, "Start date must come before End date.") unless start_date < end_date
-  end
-
-  def string_validator
-    ActiveRecord::ConnectionAdapters::Column
   end
 
 end
