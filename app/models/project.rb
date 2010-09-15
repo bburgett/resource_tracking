@@ -47,6 +47,7 @@ class Project < ActiveRecord::Base
   validates_date :start_date
   validates_date :end_date
   validate :validate_start_date_and_end_date, :if => Proc.new { |model| model.start_date.present? && model.end_date.present? }
+  validate :validate_budgets, :if => Proc.new { |model| model.budget.present? && model.entire_budget.present? }
 
   attr_accessible :name, :description, :spend, :budget, :entire_budget,
                   :start_date, :end_date, :currency
@@ -115,6 +116,10 @@ class Project < ActiveRecord::Base
     start_date = string_validator.string_to_date(self.start_date)
     end_date   = string_validator.string_to_date(self.end_date)
     errors.add(:base, "Start date must come before End date.") unless start_date < end_date
+  end
+
+  def validate_budgets
+    errors.add(:base, "Total Budget must be less than or equal to Total Budget GOR FY 10-11") if budget > entire_budget
   end
 
 end

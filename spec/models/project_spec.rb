@@ -117,7 +117,7 @@ describe Project do
       dr.should be_valid
     end
     
-    it "accepts Total Budget >= Total Budget GOR" do
+    it "accepts Total Budget = Total Budget GOR" do
       dr = Factory.build(:project, 
                     :start_date => DateTime.new(2010, 01, 01),
                     :end_date =>   DateTime.new(2010, 01, 02),
