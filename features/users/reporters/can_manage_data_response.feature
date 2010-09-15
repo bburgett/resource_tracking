@@ -9,7 +9,7 @@ Scenario: Browse to data response edit page
   Then I should be on the data response page for "Req1"
   And I should see "Currency"
 
-Scenario Outline: Edit data response
+Scenario Outline: Edit data response, see feedback messages
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
   And I fill in "data_response_currency" with "USD"
@@ -25,10 +25,7 @@ Scenario Outline: Edit data response
     | 2010-01-01 | 2010-01-02 | Successfully updated.                | Successfully updated.                     |
     |            | 2010-01-02 | Oops, we couldn't save your changes. | Fiscal year start date is an invalid date |
     | 2010-05-05 | 2010-01-02 | Oops, we couldn't save your changes. | Start date must come before End date.     |
-    | 2010-13-01 | 2010-01-02 | Oops, we couldn't save your changes. | Fiscal year start date is an invalid date |
-    | 2010-12-41 | 2010-01-02 | Oops, we couldn't save your changes. | Fiscal year start date is an invalid date |
-    | 2010       | 2010-01-02 | Oops, we couldn't save your changes. | Fiscal year start date is an invalid date |
-    | 2010-01    | 2010-01-02 | Oops, we couldn't save your changes. | Fiscal year start date is an invalid date |
+
 
 @broken
 Scenario: Comments should show on DResponse page (no JS)

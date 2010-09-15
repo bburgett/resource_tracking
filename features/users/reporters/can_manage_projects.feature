@@ -11,7 +11,7 @@ Scenario: Browse to project edit page
 
 
 @run
-Scenario Outline: Edit project dates
+Scenario Outline: Edit project dates, see feedback messages
   Given a basic org + reporter profile, with data response, signed in
   When I go to the projects page for "Req1"
   And I follow "Create New"
@@ -27,8 +27,5 @@ Scenario Outline: Edit project dates
     | 2010-01-01 | 2010-01-02 | Created Some Project                 | Created Some Project                  |
     |            | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
     | 2010-05-05 | 2010-01-02 | Oops, we couldn't save your changes. | Start date must come before End date. |
-    | 2010-13-01 | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
-    | 2010-12-41 | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
-    | 2010       | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
-    | 2010-01    | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
+
 
