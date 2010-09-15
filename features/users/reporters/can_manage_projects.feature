@@ -25,7 +25,7 @@ Scenario Outline: Edit project dates
   
   Examples:
     | start_date | end_date   | message                              | specific_message                      |
-    | 2010-01-01 | 2010-01-02 | Created Some Project.                | Successfully created Some Project.    |
+    | 2010-01-01 | 2010-01-02 | Created Some Project                 | Created Some Project                  |
     |            | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
     | 2010-05-05 | 2010-01-02 | Oops, we couldn't save your changes. | Start date must come before End date. |
     | 2010-13-01 | 2010-01-02 | Oops, we couldn't save your changes. | Start date is an invalid date         |
