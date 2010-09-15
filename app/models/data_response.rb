@@ -54,7 +54,7 @@ class DataResponse < ActiveRecord::Base
   private
 
   def validate_start_date_and_end_date
-    errors.add(:base, "Start date must come before end date.") unless self.fiscal_year_start_date < self.fiscal_year_end_date
+    errors.add(:base, "Start date must come before End date.") unless self.fiscal_year_start_date < self.fiscal_year_end_date
   end
 
 end

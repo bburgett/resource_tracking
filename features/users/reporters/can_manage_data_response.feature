@@ -9,39 +9,25 @@ Scenario: Browse to data response edit page
   Then I should be on the data response page for "Req1"
   And I should see "Currency"
 
-Scenario: Edit data response
+@wip
+Scenario Outline: Edit data response
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
-  And I fill in "data_response_fiscal_year_start_date" with "2010-01-01"
-  And I fill in "data_response_fiscal_year_end_date" with "2010-01-02"
+  And I fill in "data_response_fiscal_year_start_date" with "<start_date>"
+  And I fill in "data_response_fiscal_year_end_date" with "<end_date"
   And I press "Save"
-  Then I should see "Successfully updated."
-
-Scenario: Edit data response, empty dates
-  Given a basic org + reporter profile, with data response, signed in
-  When I go to the data response page for "Req1"
-  And I fill in "data_response_fiscal_year_start_date" with ""
-  And I fill in "data_response_fiscal_year_end_date" with ""
-  And I press "Save"
-  Then I should see "Oops, we couldn't save your changes."
-
-@run
-Scenario: Edit data response, invalid dates
-  Given a basic org + reporter profile, with data response, signed in
-  When I go to the data response page for "Req1"
-  And I fill in "data_response_fiscal_year_start_date" with "2010-05-05"
-  And I fill in "data_response_fiscal_year_end_date" with "2010-04-04"
-  And I press "Save"
-  Then I should see "Oops, we couldn't save your changes."
-
-@run
-Scenario: Edit data response, garbage dates
-  Given a basic org + reporter profile, with data response, signed in
-  When I go to the data response page for "Req1"
-  And I fill in "data_response_fiscal_year_start_date" with "blah"
-  And I fill in "data_response_fiscal_year_end_date" with "blah"
-  And I press "Save"
-  Then I should see "Oops, we couldn't save your changes."
+  Then I should see "<message>"
+  And I should see "<specific_message>"
+  
+  Examples:
+    | start_date | end_date   | message                              | specific_message                      |
+    | 2010-01-01 | 2010-01-02 | Successfully updated.                | Successfully updated.                 |
+    |            |            | Oops, we couldn't save your changes. | Start date cannot be null             |
+    | 2010-05-05 | 2010-04-04 | Oops, we couldn't save your changes. | Start date must come before End date. |
+    | 2010-13-01 | 2010-13-02 | Oops, we couldn't save your changes. | Date is invalid.                      |
+    | 2010-12-41 | 2010-12-51 | Oops, we couldn't save your changes. | Date is invalid.                      |
+    | 2010       | 2010       | Oops, we couldn't save your changes. | Date is invalid.                      |
+    | 2010-01    | 2010-02    | Oops, we couldn't save your changes. | Date is invalid.                      |
 
 @broken
 Scenario: Comments should show on DResponse page (no JS)
