@@ -1,18 +1,23 @@
 Feature: In order to reduce costs
   As a reporter
-  I want to be able to manage my data response settings
+  I want to be able to manage my projects
 
-Scenario: Browse to data response edit page
+@run
+Scenario: Browse to project edit page
   Given a basic org + reporter profile, with data response, signed in
   When I follow "My Data"
-  And I follow "Configure"
-  Then I should be on the data response page for "Req1"
-  And I should see "Currency"
+  And I follow "Projects"
+  Then I should be on the projects page for "Req1"
+  And I should see "Projects" within "div#main"
 
-Scenario Outline: Edit data response
+@run
+Scenario: Edit project
   Given a basic org + reporter profile, with data response, signed in
-  When I go to the data response page for "Req1"
-  And I fill in "data_response_currency" with "USD"
+  When I go to the projects page for "Req1"
+  And I follow "Create New"
+  Then show me the page
+  
+Scenario: blah
   And I fill in "data_response_fiscal_year_start_date" with "<start_date>"
   And I fill in "data_response_fiscal_year_end_date" with "<end_date>"
   And I press "Save"
