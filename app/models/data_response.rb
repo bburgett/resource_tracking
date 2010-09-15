@@ -23,10 +23,19 @@ require 'lib/ActAsDataElement'
 
 class DataResponse < ActiveRecord::Base
 
+  has_many    :users_currently_completing,
+              :class_name => "User",
+              :foreign_key => :data_response_id_current
+  belongs_to  :responding_organization,
+              :class_name => "Organization",
+              :foreign_key => "organization_id_responder"
+
+  belongs_to  :data_request
+
   # Validations
   validates_date :fiscal_year_start_date
   validates_date :fiscal_year_end_date
-  #validate :validate_start_date_and_end_date, :unless => Proc.new { |model| model.fiscal_year_start_date.blank? && model.fiscal_year_end_date.blank? }
+  validate :validate_start_date_and_end_date, :if => Proc.new { |model| model.fiscal_year_start_date.present? && model.fiscal_year_end_date.present? }
   validates_presence_of :currency
 
   named_scope :available_to, lambda { |current_user|
@@ -37,25 +46,22 @@ class DataResponse < ActiveRecord::Base
     end
   }
 
-#  has_many :data_elements, :dependent=>:destroy
-  has_many :users_currently_completing, :class_name => "User",
-    :foreign_key => :data_response_id_current
-
-  belongs_to :responding_organization, :class_name => "Organization",
-    :foreign_key => "organization_id_responder"
-
-  belongs_to :data_request
+  named_scope :unfulfilled, :conditions => ["complete = ?", false]
 
   def self.remove_security
     with_exclusive_scope {find(:all)}
   end
 
-  named_scope :unfulfilled, :conditions => ["complete = ?", false]
-
   private
 
   def validate_start_date_and_end_date
-    errors.add(:base, "Start date must come before End date.") unless self.fiscal_year_start_date < self.fiscal_year_end_date
+    start_date = string_validator.string_to_date(self.fiscal_year_start_date)
+    end_date   = string_validator.string_to_date(self.fiscal_year_end_date)
+    errors.add(:base, "Start date must come before End date.") unless start_date < end_date
+  end
+
+  def string_validator
+    ActiveRecord::ConnectionAdapters::Column
   end
 
 end
