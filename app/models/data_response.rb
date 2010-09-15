@@ -24,9 +24,9 @@ require 'lib/ActAsDataElement'
 class DataResponse < ActiveRecord::Base
 
   # Validations
-  validates_presence_of :fiscal_year_start_date
-  validates_presence_of :fiscal_year_end_date
-  validate :validate_start_date_and_end_date, :unless => Proc.new { |model| model.fiscal_year_start_date.blank? && model.fiscal_year_end_date.blank? }
+  validates_date :fiscal_year_start_date
+  validates_date :fiscal_year_end_date
+  #validate :validate_start_date_and_end_date, :unless => Proc.new { |model| model.fiscal_year_start_date.blank? && model.fiscal_year_end_date.blank? }
   validates_presence_of :currency
 
   named_scope :available_to, lambda { |current_user|
