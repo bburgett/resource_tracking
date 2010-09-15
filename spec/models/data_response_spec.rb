@@ -5,6 +5,7 @@ describe DataResponse do
   describe "basic validations" do
     it { should validate_presence_of(:fiscal_year_start_date) }
     it { should validate_presence_of(:fiscal_year_end_date) }
+    it { should validate_presence_of(:currency) }
   end
   
   describe "date validations" do
