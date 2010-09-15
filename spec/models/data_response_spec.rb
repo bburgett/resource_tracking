@@ -6,6 +6,10 @@ describe DataResponse do
     it { should validate_presence_of(:fiscal_year_start_date) }
     it { should validate_presence_of(:fiscal_year_end_date) }
     it { should validate_presence_of(:currency) }
+    it { should_not allow_value('2010-13-01').for(:fiscal_year_start_date) }
+    it { should_not allow_value('2010-12-41').for(:fiscal_year_start_date) }
+    it { should_not allow_value('2010-13-01').for(:fiscal_year_end_date) }
+    it { should_not allow_value('2010-12-41').for(:fiscal_year_end_date) }
   end
   
   describe "date validations" do
