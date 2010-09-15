@@ -85,7 +85,7 @@ describe Project do
     end
   end
   
-  describe "date validations" do
+  describe "multi-field validations" do
     it "accepts start date < end date" do
       dr = Factory.build(:project, 
                     :start_date => DateTime.new(2010, 01, 01),
@@ -106,6 +106,37 @@ describe Project do
                     :end_date =>   DateTime.new(2010, 01, 01) )
       dr.should_not be_valid
     end
+    
+    it "accepts Total Budget >= Total Budget GOR" do
+      dr = Factory.build(:project, 
+                    :start_date => DateTime.new(2010, 01, 01),
+                    :end_date =>   DateTime.new(2010, 01, 02),
+                    :entire_budget => 900,
+                    :budget =>        800
+                    )
+      dr.should be_valid
+    end
+    
+    it "accepts Total Budget >= Total Budget GOR" do
+      dr = Factory.build(:project, 
+                    :start_date => DateTime.new(2010, 01, 01),
+                    :end_date =>   DateTime.new(2010, 01, 02),
+                    :entire_budget => 900,
+                    :budget =>        900
+                    )
+      dr.should be_valid
+    end
+    
+    it "does not accept Total Budget < Total Budget GOR" do
+      dr = Factory.build(:project, 
+                    :start_date => DateTime.new(2010, 01, 01),
+                    :end_date =>   DateTime.new(2010, 01, 02),
+                    :entire_budget => 900,
+                    :budget =>        1000
+                    )
+      dr.should_not be_valid
+    end
+    
   end
   
 end
