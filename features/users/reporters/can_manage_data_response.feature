@@ -16,21 +16,41 @@ Scenario: Edit data response
   And I fill in "data_response_fiscal_year_end_date" with "2010-01-02"
   And I press "Save"
   Then I should see "Successfully updated."
-  
-Scenario: Edit data response, invalid dates
+
+Scenario: Edit data response, empty dates
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
   And I fill in "data_response_fiscal_year_start_date" with ""
   And I fill in "data_response_fiscal_year_end_date" with ""
   And I press "Save"
-  Then show me the page
   Then I should see "Oops, we couldn't save your changes."
 
+@run
+Scenario: Edit data response, invalid dates
+  Given a basic org + reporter profile, with data response, signed in
+  When I go to the data response page for "Req1"
+  And I fill in "data_response_fiscal_year_start_date" with "2010-05-05"
+  And I fill in "data_response_fiscal_year_end_date" with "2010-04-04"
+  And I press "Save"
+  Then I should see "Oops, we couldn't save your changes."
+
+@run
+Scenario: Edit data response, garbage dates
+  Given a basic org + reporter profile, with data response, signed in
+  When I go to the data response page for "Req1"
+  And I fill in "data_response_fiscal_year_start_date" with "blah"
+  And I fill in "data_response_fiscal_year_end_date" with "blah"
+  And I press "Save"
+  Then I should see "Oops, we couldn't save your changes."
+
+@broken
 Scenario: Comments should show on DResponse page (no JS)
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
+  Then show me the page
   Then I should see "General Questions / Comments"
 
+@broken
 @javascript
 @slow
 Scenario: Comments should show on DResponse page (with JS)
@@ -38,6 +58,7 @@ Scenario: Comments should show on DResponse page (with JS)
   When I go to the data response page for "Req1"
   Then I should see "General Questions / Comments"
 
+@broken
 Scenario: BUG: 5165708 - AS Comments breaking when validation errors on DResponse form
   Given a basic org + reporter profile, with data response, signed in
   When I go to the data response page for "Req1"
@@ -46,7 +67,7 @@ Scenario: BUG: 5165708 - AS Comments breaking when validation errors on DRespons
   And I press "Save"
   Then I should not see "Something went wrong, if this happens repeatedly, contact an administrator."
 
-@run
+
 @javascript
 @slow
 Scenario: BUG: 5165708 - AS Comments breaking when validation errors on DResponse form
