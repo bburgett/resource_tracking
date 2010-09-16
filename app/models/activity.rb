@@ -74,6 +74,13 @@ class Activity < ActiveRecord::Base
   after_save :update_budget_codings
   after_save :update_expenditure_codings
 
+
+  validate :approved_activity_cannot_be_changed
+
+  def approved_activity_cannot_be_changed
+      errors.add(:approved, "approved activity cannot be changed") if changed? and approved and changed != ["approved"]
+  end
+
   # delegate :providers, :to => :projects
   def valid_providers
     #TODO use delegates_to
