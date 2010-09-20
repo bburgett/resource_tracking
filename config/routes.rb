@@ -23,8 +23,9 @@ ActionController::Routing::Routes.draw do |map|
     :member => {:select => :post}, :active_scaffold => true
 
   map.resources :organizations,
-    :collection => {:browse => :get},
-    :member => {:select => :post}, :active_scaffold => true
+      :collection => {:browse => :get},
+      :member => {:select => :post}, :active_scaffold => true
+
 
   map.resources :activities,
                 :member => { :approve => :post },
@@ -47,7 +48,11 @@ ActionController::Routing::Routes.draw do |map|
                                               :expenditure_cost_categories => :get
                                             }
 
+
     map.resources :sub_activities, :active_scaffold => true
+
+    map.resources :budgets, :active_scaffold => true
+    map.resources :expenditures, :active_scaffold => true
 
     activity.update_coding_budget 'update_coding_budget', :controller => :code_assignments, :action => :update_budget
     activity.update_coding_expenditure 'update_coding_expenditure', :controller => :code_assignments, :action => :update_expenditure
