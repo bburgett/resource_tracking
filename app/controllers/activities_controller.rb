@@ -100,11 +100,6 @@ class ActivitiesController < ActiveScaffoldController
     super @@columns_for_file_upload
   end
 
-  #AS helper method
-  def popup_coding
-    redirect_to budget_activity_coding_url(params[:id])
-  end
-
   def conditions_for_collection
     ["activities.type IS NULL "]
   end

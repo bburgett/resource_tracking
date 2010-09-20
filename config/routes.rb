@@ -44,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
                                               :budget_districts            => :get,
                                               :budget_cost_categories      => :get,
                                               :expenditure                 => :get,
-                                              :expenditure_districts            => :get,
+                                              :expenditure_districts       => :get,
                                               :expenditure_cost_categories => :get
                                             }
 
@@ -65,7 +65,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # AS redirect helpers
-  map.popup_coding 'popup_coding', :controller => :activities, :action => :popup_coding
+  map.popup_classification 'popup_classification', :controller => :classifications, :action => :popup_classification
   map.popup_other_cost_coding "popup_other_cost_coding", :controller => 'other_costs', :action => 'popup_coding'
 
   map.resources :indicators, :active_scaffold => true
